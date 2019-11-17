@@ -9,7 +9,7 @@ const httpClient = axios.create({
 
 httpClient.interceptors.response.use(response=>response.data,error=>{
     console.log(error);
-    if(error.response.status === 401) {
+    if(!!error.response && error.response.status === 401) {
         
     }
     return Promise.reject(error)

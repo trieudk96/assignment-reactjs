@@ -13,8 +13,6 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { connect } from 'react-redux';
-import { UpdateUser} from '../redux/actions/profile.action'
 
 function Copyright() {
   return (
@@ -79,17 +77,9 @@ const user = {
     //   console.log(e)
     // });
   };
-const  UpdateForm = (props) =>{
+export default function SignUp() {
   const classes = useStyles();
-	const email = props.props.user ? props.props.user.email : '';
-	const name = props.props.user ? props.props.user.name : '';
-	const phoneNumber = props.props.user ? props.props.user.phoneNumber : ''
-  const gender = props.props.user ? props.props.user.gender : '0';
-  const dob = props.props.user ? props.props.user.dob : '';
-  const emailOtpIn = props.props.user ? props.props.user.emailOtpIn : '';
-  const update = () =>{
-    ///update
-  }
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -98,7 +88,7 @@ const  UpdateForm = (props) =>{
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-        Update
+          Sign up
         </Typography>
         <form className={classes.form} noValidate>
           <Grid container spacing={2}>
@@ -112,7 +102,6 @@ const  UpdateForm = (props) =>{
                 id="name"
                 label="Name"
                 autoFocus
-                value={name}
                 onChange={change}
               />
             </Grid>
@@ -124,8 +113,20 @@ const  UpdateForm = (props) =>{
                 id="email"
                 label="Email Address"
                 name="email"
-                value={email}
                 autoComplete="email"
+                onChange={change}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
                 onChange={change}
               />
             </Grid>
@@ -137,7 +138,6 @@ const  UpdateForm = (props) =>{
                 label="Phone Number"
                 name="phoneNumber"
                 autoComplete="phone"
-                value={phoneNumber}
                 onChange={change}
               />
             </Grid>
@@ -149,7 +149,7 @@ const  UpdateForm = (props) =>{
               <label>Nam</label>
             <Radio
             // eslint-disable-next-line
-              checked={gender == "0"}
+              checked={user.gender == "0"}
               onChange={change}
               value="0"
               name="gender"
@@ -157,7 +157,7 @@ const  UpdateForm = (props) =>{
               <label>Nữ</label>
             <Radio
             // eslint-disable-next-line
-              checked={gender == "1"}
+              checked={user.gender == "1"}
               onChange={change}
               value="1"
               name="gender"
@@ -214,35 +214,3 @@ const  UpdateForm = (props) =>{
     </Container>
   );
 }
-
-class UserUpdate extends React.Component{
-  render() {
-		if (this.props.isAuthenticated) {
-			this.props.history.push('/profile')
-		}
-		return (
-			<div>
-				<UpdateForm props={this.props} />
-			</div>
-		)
-	}
-}
-
-const mapStateToProps = state => {
-	return {
-    isAuthenticated: state.auth.isAuthenticated,
-		userId: state.auth.userId,
-		user: state.user.currentUser
-	}
-}
-
-const mapDispatchToProps = dispatch => {
-	return {
-		UpdateUser: authenData => dispatch(UpdateUser(authenData))
-	}
-}
-
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(UserUpdate)

@@ -32,6 +32,9 @@ html {
   width: 100%;
   height: 100%;
 }
+.makeStyles-image-2{
+  background-image: url("./backgrounds/bg1.jpg");
+}
 .login::after,.MuiContainer-maxWidthLg::after {
   content: "";
   background-image: url("./backgrounds/pibk2.jpg");

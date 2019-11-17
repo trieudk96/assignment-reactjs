@@ -25,7 +25,6 @@ login = ()=>{
 
   httpClient.post(`/login`, {email:this.state.email,password:this.state.password})
     .then(res => {
-      console.log(res);
       if(res.susscess){
         const data = res.payload.split(";");
         cookie.set('token', data[1]);
@@ -42,12 +41,13 @@ login = ()=>{
   render() { 
     return (
     <div className="login">
+    <form>
         <div className="login-form">
           <h1 className="label-login">Login</h1>
           <br/><br/>
             <Input className="app-input" placeholder="email" onChange={this.change} name="email" />
             <br/>
-            <Input className="app-input" placeholder="Password"  onChange={this.change} name="password" type="password"/>
+            <Input className="app-input" placeholder="Password" autoComplete="on" onChange={this.change} name="password" type="password"/>
             <br/>
          
             <Grid container item xs={8} spacing={3} style={{paddingLeft:'27%'}}>
@@ -60,6 +60,7 @@ login = ()=>{
           </Grid>
             <span id="error"></span>
       </div>
+      </form>
       <div className="container-login"> 
       {/* <Link to={{
         pathname:"/profile",

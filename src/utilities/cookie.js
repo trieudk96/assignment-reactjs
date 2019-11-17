@@ -1,4 +1,4 @@
-import Cookies from "universal-cookie";
+import Cookies from "universal-cookie/cjs";
 
 const cookie = new Cookies();
 
