@@ -4,9 +4,6 @@ import Button from '@material-ui/core/Button';
 import Radio from '@material-ui/core/Radio';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import { NavLink } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
@@ -14,7 +11,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { connect } from 'react-redux';
-import { UpdateUser} from '../redux/actions/profile.action'
+import { UpdateUser, ProfileActionTypes} from '../redux/actions/profile.action'
 
 function Copyright() {
   return (
@@ -52,44 +49,32 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(3, 0, 2),
   },
 }));
-const user = {
-    email:"",
-    dob: "",
-    emailOtpIn: "",
-    gender: "0",
-    id: 0,
-    mobileNumber: "",
-    name: "",
-    password: ""
-  };
-  const change = (event)=> {
-      debugger
-    const taget =event.target;
-    const name =taget.name;
-    const val = taget.type === 'checkbox' ? taget.checked : taget.value;
-    user[name] = val;
-  }
-  const register =()=>{
-    console.log(user);
-    // axios.post(`${AppConfig.apiUrl}/user`,{...this.state.user}).then(res=>{
-    //   if(res.data.susscess){
-    //     this.props.history.push("/");
-    //   }
-    // }).catch(e=>{
-    //   console.log(e)
-    // });
-  };
+// const user = {
+//     email:"",
+//     dob: "",
+//     emailOtpIn: "",
+//     gender: "0",
+//     id: 0,
+//     mobileNumber: "",
+//     name: "",
+//     password: ""
+//   };
+
 const  UpdateForm = (props) =>{
+  const change = (event)=> {
+    const taget =event.target;
+    const name = taget.name;
+    const value = taget.type === 'checkbox' ? taget.checked : taget.value;
+    props.props.dispatch({type:ProfileActionTypes.BINDING_USER,data:{name,value}})
+  }
   const classes = useStyles();
 	const email = props.props.user ? props.props.user.email : '';
 	const name = props.props.user ? props.props.user.name : '';
-	const phoneNumber = props.props.user ? props.props.user.phoneNumber : ''
+	const mobileNumber = props.props.user ? props.props.user.mobileNumber : ''
   const gender = props.props.user ? props.props.user.gender : '0';
   const dob = props.props.user ? props.props.user.dob : '';
   const emailOtpIn = props.props.user ? props.props.user.emailOtpIn : '';
-  const update = () =>{
-    ///update
-  }
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -135,9 +120,9 @@ const  UpdateForm = (props) =>{
                 required
                 fullWidth
                 label="Phone Number"
-                name="phoneNumber"
+                name="mobileNumber"
                 autoComplete="phone"
-                value={phoneNumber}
+                value={mobileNumber}
                 onChange={change}
               />
             </Grid>
@@ -170,6 +155,7 @@ const  UpdateForm = (props) =>{
                 fullWidth
                 label="Dob"
                 name="dob"
+                value={dob}
                 onChange={change}
               />
             </Grid>
@@ -180,12 +166,7 @@ const  UpdateForm = (props) =>{
                 label="Email Opt-In"
                 name="emailOtpIn"
                 onChange={change}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <FormControlLabel
-                control={<Checkbox value="allowExtraEmails" color="primary" />}
-                label="I want to receive inspiration, marketing promotions and updates via email."
+                value={emailOtpIn}
               />
             </Grid>
           </Grid>
@@ -195,17 +176,20 @@ const  UpdateForm = (props) =>{
             variant="contained"
             color="primary"
             className={classes.submit}
-            onClick={register}
+            onClick={()=>props.props.UpdateUser(props.props.user)}
           >
-            Sign Up
+            Update
           </Button>
-          <Grid container justify="flex-end">
-            <Grid item>
-              <NavLink to="/" variant="body2">
-                Already have an account? Sign in
-              </NavLink>
-            </Grid>
-          </Grid>
+          <Button
+            type="button"
+            fullWidth
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+            onClick={()=>props.props.history.push('/profile')}
+          >
+            Back
+          </Button>
         </form>
       </div>
       <Box mt={5}>
@@ -217,7 +201,7 @@ const  UpdateForm = (props) =>{
 
 class UserUpdate extends React.Component{
   render() {
-		if (this.props.isAuthenticated) {
+		if (!this.props.isAuthenticated || this.props.updated) {
 			this.props.history.push('/profile')
 		}
 		return (
@@ -232,13 +216,15 @@ const mapStateToProps = state => {
 	return {
     isAuthenticated: state.auth.isAuthenticated,
 		userId: state.auth.userId,
-		user: state.user.currentUser
+    user: state.user.currentUser,
+    updated:state.user.updated
 	}
 }
 
 const mapDispatchToProps = dispatch => {
 	return {
-		UpdateUser: authenData => dispatch(UpdateUser(authenData))
+    UpdateUser: userData => dispatch(UpdateUser(userData)),
+    'dispatch':dispatch
 	}
 }
 

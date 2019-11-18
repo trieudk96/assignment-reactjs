@@ -1,4 +1,4 @@
-import { combineReducers } from 'C:/Users/trieu/AppData/Local/Microsoft/TypeScript/2.9/node_modules/redux';
+import { combineReducers } from 'redux';
 import authenticationReducer from './authentication.reducer';
 import profileReducer from './profile.reducer';
 

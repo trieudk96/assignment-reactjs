@@ -73,13 +73,7 @@ const useStyles = makeStyles(theme => ({
   const login = ()=>{
     Login(state)
   }
-const showError = (message=null) =>{
-  const el =document.getElementById("error");
-            el.style.display="block";
-            el.textContent = message || "Wrong email or password";
-}
   const classes = useStyles();
-
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
@@ -150,8 +144,9 @@ const showError = (message=null) =>{
  class SignInSide extends React.Component{
   render() {
 		if (this.props.isAuthenticated) {
-			this.props.history.push('/profile')
-		}
+      this.props.history.push('/profile')
+    }
+   
 		return (
 			<div>
 				<SignInSideForm props={this.props} />
@@ -162,7 +157,7 @@ const showError = (message=null) =>{
 
 const mapStateToProps = state => {
 	return {
-		isAuthenticated: state.auth.isAuthenticated
+    isAuthenticated: state.auth.isAuthenticated
 	}
 }
 

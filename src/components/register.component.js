@@ -13,6 +13,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import httpClient from '../utilities/httpClient';
 
 function Copyright() {
   return (
@@ -61,25 +62,23 @@ const user = {
     password: ""
   };
   const change = (event)=> {
-      debugger
     const taget =event.target;
     const name =taget.name;
     const val = taget.type === 'checkbox' ? taget.checked : taget.value;
     user[name] = val;
   }
-  const register =()=>{
-    console.log(user);
-    // axios.post(`${AppConfig.apiUrl}/user`,{...this.state.user}).then(res=>{
-    //   if(res.data.susscess){
-    //     this.props.history.push("/");
-    //   }
-    // }).catch(e=>{
-    //   console.log(e)
-    // });
-  };
-export default function SignUp() {
+ 
+export default function SignUp(props) {
   const classes = useStyles();
-
+  const register =()=>{
+    httpClient.post(`/user`,{...user}).then(res=>{
+      if(res.susscess){
+        props.history.push("/");
+      }
+    }).catch(e=>{
+      console.log(e)
+    });
+  };
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -136,7 +135,7 @@ export default function SignUp() {
                 required
                 fullWidth
                 label="Phone Number"
-                name="phoneNumber"
+                name="mobileNumber"
                 autoComplete="phone"
                 onChange={change}
               />

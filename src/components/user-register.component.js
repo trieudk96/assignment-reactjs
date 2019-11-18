@@ -29,7 +29,6 @@ class UserRegister extends React.Component {
     
   }
   register =()=>{
-    debugger
     axios.post(`${AppConfig.apiUrl}/user`,{...this.state.user}).then(res=>{
       if(res.data.susscess){
         this.props.history.push("/");
