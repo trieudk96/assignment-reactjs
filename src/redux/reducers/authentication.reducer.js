@@ -1,4 +1,4 @@
-import {AuthenticationActionTypes} from "../actions/authentication.action"
+import { AuthenticationActionTypes } from "../actions/authentication.action"
 
 const initState = {}
 const authenticationReducer = (state = initState, action) => {
@@ -8,8 +8,8 @@ const authenticationReducer = (state = initState, action) => {
 				...state,
 				isAuthenticated: true,
 				userId: action.data.userId,
-            }
-            case AuthenticationActionTypes.LOGIN_FAILE:
+			}
+		case AuthenticationActionTypes.LOGIN_FAILE:
 			return {
 				...state,
 				isAuthenticated: false,
